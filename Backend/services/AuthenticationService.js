@@ -1,9 +1,8 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const createSecretToken = require("../util/createSecretToken");
+const { createSecretToken } = require("../util/createSecretToken");
 const User = require("../models/User");
 const { model } = require("mongoose");
-
 const authService = {
   async Signup(email, password) {
     const existingUser = await User.findOne({ email });

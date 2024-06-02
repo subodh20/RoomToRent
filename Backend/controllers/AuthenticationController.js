@@ -7,7 +7,7 @@ const authenticationController = {
       const user = await authService.Signup(email, password);
       res.status(201).json(user);
     } catch (e) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ error: e.message });
     }
   },
 
@@ -17,7 +17,7 @@ const authenticationController = {
       const token = await authService.Login(email, password);
       res.status(201).json({ token });
     } catch (e) {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ error: e.message });
     }
   },
 };
