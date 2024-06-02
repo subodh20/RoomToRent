@@ -9,7 +9,7 @@ const { Sequelize } = require("sequelize");
 //   port: 5432,
 // });
 // module.exports = pool;
-
+/**This is to ensure whether database is connected or not */
 const sequelize = new Sequelize("RoomToRent", "postgres", "Sub1995", {
   host: "localhost",
   port: 5432,

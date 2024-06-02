@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
-const app = express();
-const port = 3000;
 const sequelize = require("./db");
+const app = express();
+const port = process.env.PORT || 3000;
+const authRoute = require("./routes/AuthenticationRoute");
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -11,18 +11,23 @@ app.use(
   })
 );
 
-app.listen(port, async () => {
+app.get("/status", async (req, res) => {
   try {
     await sequelize.authenticate();
-    console.log("Successful database connection");
+    res.status(200).send("Database connection successful");
   } catch (e) {
-    console.error("Unable to connect to the database", e);
+    res.status(500).send("Database connection failed" + e.message);
   }
-  console.log("Server is running on port " + port);
 });
 
-app.get("/", (request, response) => {
-  response.json({
-    info: "Hello world",
+app.use("/auth", authRoute);
+sequelize
+  .sync()
+  .then(() => {
+    app.listen(port, async () => {
+      console.log("Server is running on port " + port);
+    });
+  })
+  .catch((e) => {
+    console.error("Unable to connect to the database", e);
   });
-});
